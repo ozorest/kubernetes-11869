@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hello-pod
+  name: hello-pod
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: hello-pod
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: hello-pod
+    spec:
+      containers:
+      - image: ozorest/hello-pod-flask:v1
+        name: hello-pod-flask
+        resources: 
+           limits:
+             cpu: "0.50"
+             memory: "256Mi"
+           requests:
+             cpu: "0.25"
+             memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hello-pod
+  name: hello-pod
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: hello-pod
