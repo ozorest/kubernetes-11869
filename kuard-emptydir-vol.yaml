@@ -15,9 +15,15 @@ spec:
       labels:
         app: kuard
     spec:
+      volumes:
+        - name: vol-empty
+          emptyDir: {}
       containers:
       - image: gcr.io/kuar-demo/kuard-amd64:1
         name: kuard-amd64
+        volumeMounts:
+           - name: vol-empty
+             mountPath: /data/temp
 ---
 apiVersion: v1
 kind: Service

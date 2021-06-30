@@ -15,9 +15,16 @@ spec:
       labels:
         app: kuard
     spec:
+      volumes:
+        - name: vol-teste
+          configMap:
+             name: teste
       containers:
       - image: gcr.io/kuar-demo/kuard-amd64:1
         name: kuard-amd64
+        volumeMounts:
+           - name: vol-teste
+             mountPath: /config
 ---
 apiVersion: v1
 kind: Service

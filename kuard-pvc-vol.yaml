@@ -15,9 +15,16 @@ spec:
       labels:
         app: kuard
     spec:
+      volumes:
+        - name: vol-pvc
+          persistentVolumeClaim:
+             claimName: kuard-pvc
       containers:
       - image: gcr.io/kuar-demo/kuard-amd64:1
         name: kuard-amd64
+        volumeMounts:
+           - name: vol-pvc
+             mountPath: /data
 ---
 apiVersion: v1
 kind: Service
