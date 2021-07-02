@@ -15,18 +15,14 @@ spec:
       labels:
         app: kuard
     spec:
+      tolerations:
+      - key: env
+        operator: Equal
+        value: teste
+        effect: NoSchedule
       containers:
       - image: gcr.io/kuar-demo/kuard-amd64:1
         name: kuard-amd64
-        livenessProbe:
-          httpGet:
-             path: /healthy
-             port: 8080
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-             path: /ready
-             port: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -41,4 +37,3 @@ spec:
     targetPort: 8080
   selector:
     app: kuard
-  type: NodePort

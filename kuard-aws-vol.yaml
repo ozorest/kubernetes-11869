@@ -5,7 +5,7 @@ metadata:
     app: kuard
   name: kuard
 spec:
-  replicas: 3 
+  replicas: 1
   selector:
     matchLabels:
       app: kuard
@@ -15,18 +15,16 @@ spec:
       labels:
         app: kuard
     spec:
+      volumes:
+        - name: vol-aws
+          persistentVolumeClaim:
+             claimName: kuard-aws-pv
       containers:
       - image: gcr.io/kuar-demo/kuard-amd64:1
         name: kuard-amd64
-        livenessProbe:
-          httpGet:
-             path: /healthy
-             port: 8080
-          initialDelaySeconds: 30
-        readinessProbe:
-          httpGet:
-             path: /ready
-             port: 8080
+        volumeMounts:
+           - name: vol-aws
+             mountPath: /data
 ---
 apiVersion: v1
 kind: Service

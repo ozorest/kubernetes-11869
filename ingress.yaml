@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-ozorest
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: ozorest.me
+    http:
+      paths:
+      - path: /hello-pod
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-pod
+            port:
+              number: 80
+      - path: /kuard
+        pathType: Prefix
+        backend:
+          service:
+            name: kuard
+            port:
+              number: 80
